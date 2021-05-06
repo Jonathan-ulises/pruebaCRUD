@@ -1,0 +1,20 @@
+.bg-table{
+    background-color: #0097a7;
+}
+
+
+
+.btn-rounded-map{
+    border-radius: 50%;
+    background-color: #0097a7;
+}
+
+.btn-rounded-edit{
+    border-radius: 50%;
+    background-color: #28a745;
+}
+
+.btn-rounded-delete{
+    border-radius: 50%;
+    background-color: #dc3545;
+}

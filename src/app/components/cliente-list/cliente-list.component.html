@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-7">
+            <table class="table table-sm shadow">
+                <thead class="bg-table text-white text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido Paterno</th>
+                    <th scope="col">Apellido Materno</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">RFC</th>
+                    <th scope="col">Ubicacion</th>
+                    <th scope="col">Acciones</th>
+                </thead>
+                <tbody class="text-center">
+                    <tr *ngFor="let cliente of resultListClientes; let i = index"> 
+                        <th scope="row">{{i + 1}}</th>
+                        <th>{{cliente.nombre}}</th>
+                        <th>{{cliente.a_paterno}}</th>
+                        <th>{{cliente.a_materno}}</th>
+                        <th>{{cliente.telefono}}</th>
+                        <th>{{cliente.rfc}}</th>
+                        <th><button class="btn btn-rounded-map"><i class="fas fa-map-marker-alt text-white"></i></button></th>
+                        <th>
+                            <div class="row">
+                                <button class="btn btn-rounded-edit"><i class="fas fa-edit text-white"></i></button>
+                                <button class="btn btn-rounded-delete"><i class="fas fa-trash text-white"></i></button>
+                            </div>
+                        </th>
+                        
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-5 bg-white shadow ">
+            
+        </div>
+    </div>
+</div>
