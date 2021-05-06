@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Cliente } from 'src/app/others/interfaces';
+import { Cliente } from 'src/app/others/Cliente';
 import { ClienteService } from 'src/app/services/cliente.service';
+
+/**
+ * Implementacion de SweerAlert2
+ * estas alertas es especifican son Swal.fire
+ * ademas de varios parametros como el icon, title y text
+ */
+import Swal from 'sweetalert2'
+
 
 declare var H: any;
 
@@ -23,6 +31,8 @@ export class ClienteListComponent implements OnInit {
 
   public longitud: number;
   public latitude: number;
+
+  public actUbiBtn = false; //Variable para actualizar el mapa
 
   constructor(
     private _ClientesService: ClienteService
@@ -117,6 +127,7 @@ export class ClienteListComponent implements OnInit {
    * Dibuja el mapa utilizando latitud y longitud
    * @param lat Latitud de la ubicacion
    * @param lng longitud de la ubicacion
+   * @param nom_container Contenedor HTML para el Mapa
    */
   drawerMap(lat: number, lng: number, nom_container: string): void {
     this.defaultLayers = this.platform.createDefaultLayers();
@@ -153,5 +164,62 @@ export class ClienteListComponent implements OnInit {
     let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map))
   
     let ui = H.ui.UI.createDefault(this.map, this.defaultLayers);
+  }
+
+  /**
+   * Escoande o muestra el boton para actualizar el mapo con los nuevos datos ingresados.
+   * @param value Booleano para mostrar el boton
+   */
+  mostrarActUbiBtn(value: boolean): void{
+    
+    this.actUbiBtn = value;
+  }
+
+  /**
+   * Actualiza el mapa del formulario con los nuevos datos ingresados.
+   */
+  actualizarMapa(){
+    this.cl.longitud = this.longitud;
+    this.cl.latitud = this.latitude;
+
+    alert(this.cl.latitud + " - " + this.cl.longitud);
+    this.drawerMap(this.cl.latitud, this.cl.longitud, "map-container-form")
+  }
+
+  modificar(): void{
+    const nombre = (document.getElementById("nombreCliente") as HTMLInputElement).value;
+    const a_paterno = (document.getElementById("a_paternoCliente") as HTMLInputElement).value;
+    const a_materno = (document.getElementById("a_maternoCliente") as HTMLInputElement).value;
+    const telefono = (document.getElementById("telefonoCliente") as HTMLInputElement).value;
+    const rfc = (document.getElementById("rfcCliente") as HTMLInputElement).value;
+    const longitud = (document.getElementById("longitudUC") as HTMLInputElement).value;
+    const latitud = (document.getElementById("latitudUC") as HTMLInputElement).value
+
+    this.cl.nombre = nombre.toString().toUpperCase();
+    this.cl.a_paterno = a_paterno.toString().toUpperCase();
+    this.cl.a_materno = a_materno.toString().toUpperCase();
+    this.cl.telefono = telefono;
+    this.cl.rfc = rfc.toString().toUpperCase();
+    this.cl.longitud = parseFloat(longitud);
+    this.cl.latitud = parseFloat(latitud);
+
+
+    console.log(this.cl);
+
+    this._ClientesService.updateClienteApiRest(this.cl).subscribe(
+      result => {
+        console.log(result);
+      
+        Swal.fire({
+          icon: 'success',
+          title: '¡Modificacion Exitosa!'
+        })
+        
+      }
+      ,
+      error => {
+        console.log(<any>error);
+      }
+    )
   }
 }

@@ -22,8 +22,10 @@
                         <td>{{cliente.telefono}}</td>
                         <td>{{cliente.rfc}}</td>
                         <td>
-                            <button id="btnTool" class="btn bg-info" (click)="mostrarMapDiv(this.i)"><i class="fas fa-map-marker-alt text-white"></i></button>
-                            <button class="btn btn-success" (click)="mostrarFormDiv(this.i)"><i class="fas fa-edit text-white"></i></button>
+                            <button id="btnTool" class="btn bg-info" (click)="mostrarMapDiv(this.i)"><i
+                                    class="fas fa-map-marker-alt text-white"></i></button>
+                            <button class="btn btn-success" (click)="mostrarFormDiv(this.i)"><i
+                                    class="fas fa-edit text-white"></i></button>
                             <button class="btn btn-danger"><i class="fas fa-trash text-white"></i></button>
                         </td>
                     </tr>
@@ -37,7 +39,7 @@
                 <h1 class="text-center text-uppercase mt-2">Modificar Datos</h1>
                 <hr>
 
-                
+
                 <form>
                     <!-- NOMBRE -->
                     <div class="form-group">
@@ -68,14 +70,21 @@
                     </div>
 
                     <!-- LONGITUD/LATITUD -->
-                    <div class="form-row mb-4">
+                    <div class="form-row mb-2">
                         <div class="col">
                             <label for="longitudUC">Longitud</label>
-                            <input type="text" id="longitudUC" class="form-control form-control-sm" name="longitud">
+                            <input type="number" id="longitudUC" class="form-control form-control-sm" name="longitud"
+                                (keydown)="mostrarActUbiBtn(true)" [(ngModel)]="longitud">
                         </div>
                         <div class="col">
                             <label for="latitudUC">Latitud</label>
-                            <input type="text" id="latitudUC" class="form-control form-control-sm" name="latitud">
+                            <input type="number" id="latitudUC" class="form-control form-control-sm" name="latitude"
+                                (keydown)="mostrarActUbiBtn(true)" [(ngModel)]="latitude">
+                        </div>
+                    </div>
+                    <div *ngIf="actUbiBtn" class="form-row mb-4">
+                        <div class="col">
+                            <button class="btn btn-info btn-block" (click)="actualizarMapa()">Actualizar Mapa</button>
                         </div>
                     </div>
 
@@ -97,7 +106,7 @@
 
                     </div>
 
-                    <button class="btn btn-block mt-5 button_enviar font-weight-bold">Modificar</button>
+                    <button class="btn btn-block mt-5 button_enviar font-weight-bold" (click)="modificar()">Modificar</button>
                 </form>
             </div>
 
@@ -107,7 +116,7 @@
                     <div #map class="mapa" id="map-container-cl"></div>
                 </div>
                 <p class="text-center font-weight-bold">{{longitud}} : {{latitude}}</p>
-            </div>  
+            </div>
 
         </div>
     </div>

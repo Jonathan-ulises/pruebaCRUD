@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cliente } from '../others/interfaces';
+import { Cliente } from '../others/Cliente';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Commons } from '../others/Commons';
@@ -55,6 +55,7 @@ export class ClienteService {
     const cabeceras = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     
     const body = new URLSearchParams();
+    body.set('idC', cl.idCliente.toString());
     body.set('nombre', cl.nombre);
     body.set('a_paterno', cl.a_paterno);
     body.set('a_materno', cl.a_materno);
