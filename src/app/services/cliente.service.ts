@@ -45,4 +45,24 @@ export class ClienteService {
 
     return this._http.post(Commons.BASE_URL + "api/clientes/insert", body.toString(), {headers: cabeceras});
   }
+
+  /**
+   * Realiza lña modificacion de un cliente en la base de datos-
+   * @param cl Objeto Cliente
+   * @returns Consulta HTTP POST
+   */
+  updateClienteApiRest(cl: Cliente): Observable<any> {
+    const cabeceras = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    
+    const body = new URLSearchParams();
+    body.set('nombre', cl.nombre);
+    body.set('a_paterno', cl.a_paterno);
+    body.set('a_materno', cl.a_materno);
+    body.set('telefono', cl.telefono);
+    body.set('rfc', cl.rfc);
+    body.set('longitud', cl.longitud.toString());
+    body.set('latitud', cl.latitud.toString());
+
+    return this._http.post(Commons.BASE_URL + "api/clientes/update", body.toString(), {headers: cabeceras});
+  }
 }

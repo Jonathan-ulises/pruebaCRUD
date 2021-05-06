@@ -26,7 +26,7 @@ export class InsertClComponent implements OnInit {
     this.cliente = new Cliente();
     this.platform = new H.service.Platform({
       "apikey": "1Prt9d6wk9LDyDioP_84FtbI1yWzrdOitKcv-Cq3qCE"
-    })
+    });
   }
 
   ngOnInit(): void {

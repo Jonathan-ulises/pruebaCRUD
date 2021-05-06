@@ -22,9 +22,8 @@
                         <td>{{cliente.telefono}}</td>
                         <td>{{cliente.rfc}}</td>
                         <td>
-                            <button id="btnTool" class="btn bg-info"><i
-                                    class="fas fa-map-marker-alt text-white"></i></button>
-                            <button class="btn btn-success"><i class="fas fa-edit text-white"></i></button>
+                            <button id="btnTool" class="btn bg-info" (click)="mostrarMapDiv(this.i)"><i class="fas fa-map-marker-alt text-white"></i></button>
+                            <button class="btn btn-success" (click)="mostrarFormDiv(this.i)"><i class="fas fa-edit text-white"></i></button>
                             <button class="btn btn-danger"><i class="fas fa-trash text-white"></i></button>
                         </td>
                     </tr>
@@ -32,71 +31,84 @@
             </table>
         </div>
         <div style="border-radius: 20px;" class="col-sm-4 bg-white shadow ml-5 p-3">
-            <h1 class="text-center text-uppercase mt-2">Modificar Datos</h1>
-            <hr>
 
             <!-- FORMULARIO -->
-            <form>
-                <!-- NOMBRE -->
-                <div class="form-group">
-                    <label for="nombreCliente">Nombre</label>
-                    <input type="text" id="nombreCliente" class="form-control form-control-sm">
-                </div>
+            <div style="display: none;" id="formulario">
+                <h1 class="text-center text-uppercase mt-2">Modificar Datos</h1>
+                <hr>
 
-                <!-- APELLIDOS -->
-                <div class="form-group">
-                    <label for="a_paternoCliente">Apellido Paterno</label>
-                    <input type="text" id="a_paternoCliente" class="form-control form-control-sm">
-                </div>
-                <div class="form-group">
-                    <label for="a_maternoCliente">Apellido Materno</label>
-                    <input type="text" id="a_maternoCliente" class="form-control form-control-sm">
-                </div>
-
-                <!-- TELEFONO -->
-                <div class="form-group">
-                    <label for="telefonoCliente">Telefono</label>
-                    <input type="number" name="" id="telefonoCliente" class="form-control form-control-sm">
-                </div>
-
-                <!-- RFC -->
-                <div class="form-group">
-                    <label for="rfcCliente">RFC</label>
-                    <input type="text" name="" id="rfcCliente" class="form-control form-control-sm">
-                </div>
-
-                <!-- LONGITUD/LATITUD -->
-                <div class="form-row mb-4">
-                    <div class="col">
-                        <label for="longitudUC">Longitud</label>
-                        <input type="text" id="longitudUC" class="form-control form-control-sm" name="longitud">
+                
+                <form>
+                    <!-- NOMBRE -->
+                    <div class="form-group">
+                        <label for="nombreCliente">Nombre</label>
+                        <input type="text" id="nombreCliente" class="form-control form-control-sm">
                     </div>
-                    <div class="col">
-                        <label for="latitudUC">Latitud</label>
-                        <input type="text" id="latitudUC" class="form-control form-control-sm" name="latitud">
-                    </div>
-                </div>
 
-                <!-- MAPA -->
+                    <!-- APELLIDOS -->
+                    <div class="form-group">
+                        <label for="a_paternoCliente">Apellido Paterno</label>
+                        <input type="text" id="a_paternoCliente" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="a_maternoCliente">Apellido Materno</label>
+                        <input type="text" id="a_maternoCliente" class="form-control form-control-sm">
+                    </div>
+
+                    <!-- TELEFONO -->
+                    <div class="form-group">
+                        <label for="telefonoCliente">Telefono</label>
+                        <input type="number" name="" id="telefonoCliente" class="form-control form-control-sm">
+                    </div>
+
+                    <!-- RFC -->
+                    <div class="form-group">
+                        <label for="rfcCliente">RFC</label>
+                        <input type="text" name="" id="rfcCliente" class="form-control form-control-sm">
+                    </div>
+
+                    <!-- LONGITUD/LATITUD -->
+                    <div class="form-row mb-4">
+                        <div class="col">
+                            <label for="longitudUC">Longitud</label>
+                            <input type="text" id="longitudUC" class="form-control form-control-sm" name="longitud">
+                        </div>
+                        <div class="col">
+                            <label for="latitudUC">Latitud</label>
+                            <input type="text" id="latitudUC" class="form-control form-control-sm" name="latitud">
+                        </div>
+                    </div>
+
+                    <!-- MAPA -->
+                    <div class="form-row justify-content-center">
+                        <div #map class="mapa" id="map-container-form"></div>
+                        <button class="btn btn-info btn-sm mt-3">Tomar ubicacion</button>
+                    </div>
+
+                    <!-- DOCUMENTOS -->
+                    <h1 class="h3 text-center mt-3">Generar Documentos</h1>
+                    <div class="form-row">
+                        <div class="col">
+                            <button class="btn btn-danger btn-block">PDF</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-success btn-block">XLSX</button>
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-block mt-5 button_enviar font-weight-bold">Modificar</button>
+                </form>
+            </div>
+
+            <!-- MAP -->
+            <div style="display: block;" class="mapa-cl" id="mapa-cl">
                 <div class="form-row justify-content-center">
-                    <div #map class="mapa" id="map-container"></div>
-                    <button class="btn btn-info btn-sm mt-3">Tomar ubicacion</button>
+                    <div #map class="mapa" id="map-container-cl"></div>
                 </div>
+                <p class="text-center font-weight-bold">{{longitud}} : {{latitude}}</p>
+            </div>  
 
-                <!-- DOCUMENTOS -->
-                <h1 class="h3 text-center mt-3">Generar Documentos</h1>
-                <div class="form-row">
-                    <div class="col">
-                        <button class="btn btn-danger btn-block">PDF</button>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-success btn-block">XLSX</button>
-                    </div>
-                    
-                </div>
-
-                <button class="btn btn-block mt-5 button_enviar font-weight-bold">Modificar</button>
-            </form>
         </div>
     </div>
 </div>
