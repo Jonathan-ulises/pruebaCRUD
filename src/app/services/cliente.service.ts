@@ -47,7 +47,7 @@ export class ClienteService {
   }
 
   /**
-   * Realiza lña modificacion de un cliente en la base de datos-
+   * Realiza la modificacion de un cliente en la base de datos.
    * @param cl Objeto Cliente
    * @returns Consulta HTTP POST
    */
@@ -65,5 +65,19 @@ export class ClienteService {
     body.set('latitud', cl.latitud.toString());
 
     return this._http.post(Commons.BASE_URL + "api/clientes/update", body.toString(), {headers: cabeceras});
+  }
+
+  /**
+   * Realiza la eliminacion de un cliente en la base de datos.
+   * @param cl Objeto Cliente
+   * @returns Consulta HTTP POST
+   */
+  deteleteClienteApiRest(cl: Cliente): Observable<any> {
+    const cabeceras = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+    const body = new URLSearchParams();
+    body.set('idC', cl.idCliente.toString());
+
+    return this._http.post(Commons.BASE_URL + "api/clientes/delete", body.toString(), {headers: cabeceras});
   }
 }

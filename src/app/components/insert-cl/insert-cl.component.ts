@@ -3,6 +3,13 @@ import { Cliente } from 'src/app/others/Cliente';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { Router } from '@angular/router';
 
+/**
+ * Implementacion de SweerAlert2
+ * estas alertas es especifican son Swal.fire
+ * ademas de varios parametros como el icon, title y text
+ */
+ import Swal from 'sweetalert2'
+
 declare var H: any;
 
 @Component({
@@ -59,11 +66,22 @@ export class InsertClComponent implements OnInit {
     this._clietneService.addClienteApiRest(this.cliente).subscribe(
       result => {
         console.log(result)
+
+        Swal.fire({
+          icon: 'success',
+          title: '¡Registro Exitoso!'
+        });
+
         this.router.navigate(['home']);
       }
       ,
       error => {
         console.log(<any>error);
+
+        Swal.fire({
+          icon: 'error',
+          title: '¡A ocurrido un error Interno!'
+        });
       }
     );
 
@@ -96,7 +114,13 @@ export class InsertClComponent implements OnInit {
           this.latitude = position.coords.latitude;
           this.drawerMap(this.latitude, this.longitud);
         }, () => {
-          alert('Ocurrio un error o no hay permisos para obtener tu ubicacion');
+          Swal.fire({
+            icon: 'error',
+            title: '¡A ocurrido un error Interno!',
+            text: 'No hay permisos para obtener tu ubicacion'
+          });
+
+          
         }, config)
     }
   }
