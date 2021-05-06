@@ -10,6 +10,7 @@ import { ClienteService } from 'src/app/services/cliente.service';
 })
 export class ClienteListComponent implements OnInit {
 
+
   public resultListClientes: Array<Cliente>;
   constructor(
     private _ClientesService: ClienteService

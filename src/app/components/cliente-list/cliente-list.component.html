@@ -1,40 +1,102 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-7">
-            <table class="table table-sm shadow">
+            <table class="table table-sm table-bordered shadow">
                 <thead class="bg-table text-white text-center">
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido Paterno</th>
-                    <th scope="col">Apellido Materno</th>
-                    <th scope="col">Telefono</th>
-                    <th scope="col">RFC</th>
-                    <th scope="col">Ubicacion</th>
-                    <th scope="col">Acciones</th>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">A_Paterno</th>
+                        <th scope="col">A_Materno</th>
+                        <th scope="col">Tel</th>
+                        <th scope="col">RFC</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr *ngFor="let cliente of resultListClientes; let i = index"> 
+                    <tr *ngFor="let cliente of resultListClientes; let i = index">
                         <th scope="row">{{i + 1}}</th>
-                        <th>{{cliente.nombre}}</th>
-                        <th>{{cliente.a_paterno}}</th>
-                        <th>{{cliente.a_materno}}</th>
-                        <th>{{cliente.telefono}}</th>
-                        <th>{{cliente.rfc}}</th>
-                        <th><button class="btn btn-rounded-map"><i class="fas fa-map-marker-alt text-white"></i></button></th>
-                        <th>
-                            <div class="row">
-                                <button class="btn btn-rounded-edit"><i class="fas fa-edit text-white"></i></button>
-                                <button class="btn btn-rounded-delete"><i class="fas fa-trash text-white"></i></button>
-                            </div>
-                        </th>
-                        
+                        <td>{{cliente.nombre}}</td>
+                        <td>{{cliente.a_paterno}}</td>
+                        <td>{{cliente.a_materno}}</td>
+                        <td>{{cliente.telefono}}</td>
+                        <td>{{cliente.rfc}}</td>
+                        <td>
+                            <button id="btnTool" class="btn bg-info"><i
+                                    class="fas fa-map-marker-alt text-white"></i></button>
+                            <button class="btn btn-success"><i class="fas fa-edit text-white"></i></button>
+                            <button class="btn btn-danger"><i class="fas fa-trash text-white"></i></button>
+                        </td>
                     </tr>
-                    
                 </tbody>
             </table>
         </div>
-        <div class="col-sm-5 bg-white shadow ">
-            
+        <div style="border-radius: 20px;" class="col-sm-4 bg-white shadow ml-5 p-3">
+            <h1 class="text-center text-uppercase mt-2">Modificar Datos</h1>
+            <hr>
+
+            <!-- FORMULARIO -->
+            <form>
+                <!-- NOMBRE -->
+                <div class="form-group">
+                    <label for="nombreCliente">Nombre</label>
+                    <input type="text" id="nombreCliente" class="form-control form-control-sm">
+                </div>
+
+                <!-- APELLIDOS -->
+                <div class="form-group">
+                    <label for="a_paternoCliente">Apellido Paterno</label>
+                    <input type="text" id="a_paternoCliente" class="form-control form-control-sm">
+                </div>
+                <div class="form-group">
+                    <label for="a_maternoCliente">Apellido Materno</label>
+                    <input type="text" id="a_maternoCliente" class="form-control form-control-sm">
+                </div>
+
+                <!-- TELEFONO -->
+                <div class="form-group">
+                    <label for="telefonoCliente">Telefono</label>
+                    <input type="number" name="" id="telefonoCliente" class="form-control form-control-sm">
+                </div>
+
+                <!-- RFC -->
+                <div class="form-group">
+                    <label for="rfcCliente">RFC</label>
+                    <input type="text" name="" id="rfcCliente" class="form-control form-control-sm">
+                </div>
+
+                <!-- LONGITUD/LATITUD -->
+                <div class="form-row mb-4">
+                    <div class="col">
+                        <label for="longitudUC">Longitud</label>
+                        <input type="text" id="longitudUC" class="form-control form-control-sm" name="longitud">
+                    </div>
+                    <div class="col">
+                        <label for="latitudUC">Latitud</label>
+                        <input type="text" id="latitudUC" class="form-control form-control-sm" name="latitud">
+                    </div>
+                </div>
+
+                <!-- MAPA -->
+                <div class="form-row justify-content-center">
+                    <div #map class="mapa" id="map-container"></div>
+                    <button class="btn btn-info btn-sm mt-3">Tomar ubicacion</button>
+                </div>
+
+                <!-- DOCUMENTOS -->
+                <h1 class="h3 text-center mt-3">Generar Documentos</h1>
+                <div class="form-row">
+                    <div class="col">
+                        <button class="btn btn-danger btn-block">PDF</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-success btn-block">XLSX</button>
+                    </div>
+                    
+                </div>
+
+                <button class="btn btn-block mt-5 button_enviar font-weight-bold">Modificar</button>
+            </form>
         </div>
     </div>
 </div>

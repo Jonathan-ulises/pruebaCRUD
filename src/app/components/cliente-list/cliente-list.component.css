@@ -1,20 +1,19 @@
-.bg-table{
+.bg-table, .bg-button-map{
     background-color: #0097a7;
 }
 
+.mapa{
+    width: 400px;
+    height: 300px;
+    background-color: gray;
+}
 
+.button_enviar{
+    background-color: white;
+    border-color: #0097a7;
+}
 
-.btn-rounded-map{
-    border-radius: 50%;
+.button_enviar:hover{
     background-color: #0097a7;
-}
-
-.btn-rounded-edit{
-    border-radius: 50%;
-    background-color: #28a745;
-}
-
-.btn-rounded-delete{
-    border-radius: 50%;
-    background-color: #dc3545;
+    color: white;
 }
