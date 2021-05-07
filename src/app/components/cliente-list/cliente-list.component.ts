@@ -173,8 +173,6 @@ export class ClienteListComponent implements OnInit {
       }
     );
 
-
-
     //Marker inicial
     this.map.addObject(markerCl);
 
@@ -193,9 +191,6 @@ export class ClienteListComponent implements OnInit {
       this.longitud = coords.lng;
       this.latitude = coords.lat;
     });
-
-
-
 
     window.addEventListener('resize', () => this.map.getViewPort().resize());
     let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map))
@@ -432,6 +427,9 @@ export class ClienteListComponent implements OnInit {
     }
   }
 
+  /**
+   * Genera archivo PDF con los datos del cliente
+   */
   generarPDF(): void {
     const doc = new jsPDF();
     
