@@ -8,6 +8,7 @@
                     <button class="btn btn-success btn-sm ml-2" (click)="buscarCliente(search.value)">Buscar</button>
                 </div>
             </form>
+            <button class="btn btn-success btn-block mb-4" (click)="generarXLSX()">Generar XLSX</button>
         </div>
     </div>
     <div class="row">
@@ -107,15 +108,11 @@
                     </div>
 
                     <!-- DOCUMENTOS -->
-                    <h1 class="h3 text-center mt-3">Generar Documentos</h1>
-                    <div class="form-row">
+                    
+                    <div class="form-row mt-3">
                         <div class="col">
-                            <button class="btn btn-danger btn-block" (click)="generarPDF()">PDF</button>
+                            <button class="btn btn-danger btn-block" (click)="generarPDF()">Generar PDF</button>
                         </div>
-                        <div class="col">
-                            <button class="btn btn-success btn-block">XLSX</button>
-                        </div>
-
                     </div>
 
                     <button class="btn btn-block mt-5 button_enviar font-weight-bold"

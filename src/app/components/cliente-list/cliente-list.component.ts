@@ -15,6 +15,7 @@ import { jsPDF } from 'jspdf';
  */
 import Swal from 'sweetalert2'
 
+import * as XLSX from 'xlsx';
 
 declare var H: any;
 
@@ -44,6 +45,8 @@ export class ClienteListComponent implements OnInit {
   private date: Date;
   private img: any;
 
+  private ws: XLSX.WorkSheet; //WorkSheet
+  private wb: XLSX.WorkBook; //WorkBook
   
   constructor(
     private _ClientesService: ClienteService,
@@ -463,5 +466,23 @@ export class ClienteListComponent implements OnInit {
       " / Latitud: " + this.cl.latitud, 10, 111); //Coordenadas
 
     doc.save(nombrePDF + '.pdf');
+  }
+
+  /**
+   * Genera archivo XLSX con la tabla de los clientes.
+   */
+  generarXLSX(): void{
+    const nombreXLSX = this.date.toDateString() +
+      '-' + this.date.getHours() +
+      '-' + this.date.getMinutes() +
+      '-' + this.date.getSeconds() + 
+      '-' + this.date.getMilliseconds();
+
+
+    this.ws = XLSX.utils.json_to_sheet(this.resultListClientes);
+    this.wb = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(this.wb, this.ws, 'Clientes');
+    XLSX.writeFile(this.wb, nombreXLSX + '-Tabla_Clientes.xlsx');
   }
 }
