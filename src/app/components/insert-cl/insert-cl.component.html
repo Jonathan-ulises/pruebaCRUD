@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div style="border-radius: 20px;" class="col-sm-6 bg-white p-3 shadow">
@@ -12,7 +11,7 @@
                         <input type="text" id="nombreCliente" class="form-control form-control-sm">
                     </div>
                 </div>
-    
+
                 <!-- A_PATERNO/MATERNO -->
                 <div class="form-row">
                     <div class="col">
@@ -38,29 +37,39 @@
                 </div>
 
                 <h3 class="text-center mt-5">Ubicacion</h3>
-                
+
                 <!-- LONGIRUD/LATITUDE -->
-                <div class="form-row mb-4">
+                <div class="form-row mb-2">
                     <div class="col">
                         <label for="longitudUC">Longitud</label>
-                        <input type="text" id="longitudUC" class="form-control form-control-sm" name="longitud" [(ngModel)]="longitud">
+                        <input type="number" id="longitudUC" class="form-control form-control-sm" name="longitud"
+                            [(ngModel)]="longitud" (keydown)="mostrarActUbiBtn(true)" (wheel)="mostrarActUbiBtn(true)" (click)="mostrarActUbiBtn(true)">
                     </div>
                     <div class="col">
                         <label for="latitudUC">Latitud</label>
-                        <input type="text" id="latitudUC" class="form-control form-control-sm" name="latitud" [(ngModel)]="latitude">
+                        <input type="number" id="latitudUC" class="form-control form-control-sm" name="latitud"
+                            [(ngModel)]="latitude" (keydown)="mostrarActUbiBtn(true)" (wheel)="mostrarActUbiBtn(true)" (click)="mostrarActUbiBtn(true)">
                     </div>
                 </div>
+                <div class="form-row mb-4">
+                    <div *ngIf="actUbiBtn" class="col">
+                        <button class="btn btn-info btn-block" (click)="actualizarMapa()">Actualizar Mapa</button>
+                    </div>
+                </div>
+
+
                 <!-- MAPA -->
                 <div class="form-row justify-content-center">
                     <div #map class="mapa" id="map-container"></div>
                 </div>
-                
 
 
-                <button class="btn btn-block mt-5 button_enviar font-weight-bold" (click)="registrar()"> Registrar</button>
+
+                <button class="btn btn-block mt-5 button_enviar font-weight-bold" (click)="registrar()">
+                    Registrar</button>
             </form>
         </div>
     </div>
-    
-    
+
+
 </div>

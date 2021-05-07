@@ -20,11 +20,15 @@ declare var H: any;
 export class InsertClComponent implements OnInit {
 
   private cliente: Cliente;
+  
+  //Mapa
   private platform: any;
+  private map: any;
   private defaultLayers: any;
   public longitud: number;
   public latitude: number;
 
+  public actUbiBtn = false; //Variable para actualizar el mapa
 
   constructor(
     private _clietneService: ClienteService,
@@ -131,14 +135,66 @@ export class InsertClComponent implements OnInit {
    * @param lng longitud de la ubicacion
    */
   drawerMap(lat: number, lng: number): void {
+
+    let coords = null; //Coordenadas del click en el mapa
+    let markerCl = null; //Marker del mapa
+
     this.defaultLayers = this.platform.createDefaultLayers();
-    const map = new H.Map(
-      document.getElementById("map-container"),
+
+    const divMapCl = document.getElementById("map-container");
+    divMapCl.innerHTML = "";
+    /**
+     * Markador con las cordenadas del cliente.
+     */
+    markerCl = new H.map.Marker({ lat: lat, lng: lng});
+
+    /**
+     * Creacion del mapa
+     */
+    this.map = new H.Map(
+      divMapCl,
       this.defaultLayers.vector.normal.map,
       {
         zoom: 15,
-        center: { lat: lat, lng: lng }
+        center: { lat: lat, lng: lng },
+        pixelRatio: window.devicePixelRatio || 1
       }
     );
+
+    //Marker inicial
+    this.map.addObject(markerCl);
+
+    /**
+     * Evento para obtener las coodenadas 'clicleadas' en el mapa para modificar las
+     * coordenadas y la pocicios del Marker en el mapa
+     */
+    this.map.addEventListener('tap', (evt) => {
+      coords = this.map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
+      console.log(coords);
+      this.map.removeObject(markerCl);
+
+      markerCl = new H.map.Marker({ lat: coords.lat, lng: coords.lng});
+      this.map.addObject(markerCl);
+
+      this.longitud = coords.lng;
+      this.latitude = coords.lat;
+    });
+
+    window.addEventListener('resize', () => this.map.getViewPort().resize());
+    let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map))
+
+    let ui = H.ui.UI.createDefault(this.map, this.defaultLayers);
+  }
+
+  /**
+   * Escoande o muestra el boton para actualizar el mapo con los nuevos datos ingresados.
+   * @param value Booleano para mostrar el boton
+   */
+   mostrarActUbiBtn(value: boolean): void {
+    this.actUbiBtn = value;
+  }
+
+  actualizarMapa() {
+    this.drawerMap(this.latitude, this.longitud)
   }
 }
