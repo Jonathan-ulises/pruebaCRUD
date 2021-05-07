@@ -147,7 +147,7 @@ export class ClienteListComponent implements OnInit {
     /**
      * Markador con las cordenadas del cliente.
      */
-     markerCl = new H.map.Marker({ lat: lat, lng: lng });
+    markerCl = new H.map.Marker({ lat: lat, lng: lng });
 
     /**
      * Creacion del mapa
@@ -174,7 +174,7 @@ export class ClienteListComponent implements OnInit {
       console.log(coords);
       this.map.removeObject(markerCl);
 
-      markerCl = new H.map.Marker({ lat: coords.lat, lng: coords.lng});
+      markerCl = new H.map.Marker({ lat: coords.lat, lng: coords.lng });
       this.map.addObject(markerCl);
 
       this.longitud = coords.lng;
@@ -182,7 +182,7 @@ export class ClienteListComponent implements OnInit {
     });
 
 
-    
+
 
     window.addEventListener('resize', () => this.map.getViewPort().resize());
     let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map))
@@ -242,6 +242,23 @@ export class ClienteListComponent implements OnInit {
           title: '¡Modificacion Exitosa!'
         });
 
+        this._ClientesService.getClientesApiRest().subscribe(
+          result => {
+            this.resultListClientes = result;
+          }
+          ,
+          error => {
+            console.log(<any>error);
+          }
+        );
+
+        const divMap = document.getElementById('mapa-cl');
+        const divForm = document.getElementById('formulario');
+
+        if (divMap.style.display == 'none') {
+          divMap.style.display = 'block';
+          divForm.style.display = 'none';
+        }
       }
       ,
       error => {
@@ -349,8 +366,57 @@ export class ClienteListComponent implements OnInit {
     )
   }
 
-  buscarCliente(txt: string){
-    alert(txt);
+  /**
+   * Busca un cliente directamente en la base de datos
+   * @param txt Nombre, Apellido paterno, Apellido materno a buscar
+   */
+  buscarCliente(txt: string) {
+    
+    /**
+     * Si el campo de texto esta vasio, realiza la consulta completa de los clientes
+     */
+    if(txt == ""){
+
+      this._ClientesService.getClientesApiRest().subscribe(
+        result => {
+          this.resultListClientes = result;
+        }
+        ,
+        error => {
+          console.log(<any>error);
+        }
+      );
+    }else{
+
+      this._ClientesService.searchClienteApiRest(txt).subscribe(
+        result => {
+          /**
+           * Si el resultado de la consulta es NOTFOUND, quiere decir que no
+           * encontro el cliente en la base de datos. Se mostrara alerta de error.
+           */
+          if (result.result == 'NOTFOUND') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Usuario no encontrado'
+            });
+          } else {
+
+            //Se actualiza la tabla con los datos del cliente consultado.
+            console.log(result);
+            this.resultListClientes = result;
+          }
+        }
+        ,
+        error => {
+          console.log(<any>error);
+  
+          Swal.fire({
+            icon: 'error',
+            title: '¡A ocurrido un error Interno!'
+          });
+        }
+      );
+    }
   }
 
 }
