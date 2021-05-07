@@ -131,8 +131,8 @@ export class ClienteListComponent implements OnInit {
    */
   drawerMap(lat: number, lng: number, nom_container: string): void {
 
-    let coords = null;
-    let markerCl = null;
+    let coords = null; //Coordenadas del click en el mapa
+    let markerCl = null; //Marker del mapa
 
     this.defaultLayers = this.platform.createDefaultLayers();
     /**
@@ -162,10 +162,13 @@ export class ClienteListComponent implements OnInit {
       }
     );
 
-    
+    //Marker inicial
     this.map.addObject(markerCl);
 
-
+    /**
+     * Evento para obtener las coodenadas 'clicleadas' en el mapa para modificar las
+     * coordenadas y la pocicios del Marker en el mapa
+     */
     this.map.addEventListener('tap', (evt) => {
       coords = this.map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
       console.log(coords);
@@ -292,7 +295,6 @@ export class ClienteListComponent implements OnInit {
    * @param i Indice del array de clientes
    */
   eliminarCliente(i: number): void {
-
     //Se optiene el cliente seleccionado del array
     this.cl = this.resultListClientes[i];
 
@@ -345,6 +347,10 @@ export class ClienteListComponent implements OnInit {
         });
       }
     )
+  }
+
+  buscarCliente(txt: string){
+    alert(txt);
   }
 
 }
