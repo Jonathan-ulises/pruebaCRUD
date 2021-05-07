@@ -21,6 +21,17 @@ export class ClienteService {
   }
 
   /**
+   * Realiza la busqueda de un cliente directamente en la base de datos. Solo por nombre, apellido paterno
+   * y apellido materno. El dato debe ser completo.
+   * @param txt Texto a buscar
+   * @returns La consulta HTTP GET
+   */
+  searchClienteApiRest(txt: string): Observable<any>{
+    
+    return this._http.get(Commons.BASE_URL + "api/clientes/search?txt=" + txt);
+  }
+
+  /**
    * Realiza el registro de un cliente en la base de datos
    * @param cl Objceto Cliente
    * @returns La consulta HTTP POST
