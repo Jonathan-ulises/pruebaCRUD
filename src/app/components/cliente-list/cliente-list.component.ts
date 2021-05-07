@@ -4,6 +4,11 @@ import { ClienteService } from 'src/app/services/cliente.service';
 import { Router } from '@angular/router';
 
 /**
+ * Libreria para generar archivos PDF 
+ */
+import { jsPDF } from 'jspdf';
+
+/**
  * Implementacion de SweerAlert2
  * estas alertas es especifican son Swal.fire
  * ademas de varios parametros como el icon, title y text
@@ -35,10 +40,16 @@ export class ClienteListComponent implements OnInit {
 
   public actUbiBtn = false; //Variable para actualizar el mapa
 
+  //DOCUMENTO PDF
+  private date: Date;
+  private img: any;
+
+  
   constructor(
     private _ClientesService: ClienteService,
     private router: Router
   ) {
+    this.date = new Date;
     this.platform = new H.service.Platform({
       "apikey": "1Prt9d6wk9LDyDioP_84FtbI1yWzrdOitKcv-Cq3qCE"
     });
@@ -161,6 +172,8 @@ export class ClienteListComponent implements OnInit {
         pixelRatio: window.devicePixelRatio || 1
       }
     );
+
+
 
     //Marker inicial
     this.map.addObject(markerCl);
@@ -371,11 +384,11 @@ export class ClienteListComponent implements OnInit {
    * @param txt Nombre, Apellido paterno, Apellido materno a buscar
    */
   buscarCliente(txt: string) {
-    
+
     /**
      * Si el campo de texto esta vasio, realiza la consulta completa de los clientes
      */
-    if(txt == ""){
+    if (txt == "") {
 
       this._ClientesService.getClientesApiRest().subscribe(
         result => {
@@ -386,7 +399,7 @@ export class ClienteListComponent implements OnInit {
           console.log(<any>error);
         }
       );
-    }else{
+    } else {
 
       this._ClientesService.searchClienteApiRest(txt).subscribe(
         result => {
@@ -409,7 +422,7 @@ export class ClienteListComponent implements OnInit {
         ,
         error => {
           console.log(<any>error);
-  
+
           Swal.fire({
             icon: 'error',
             title: '¡A ocurrido un error Interno!'
@@ -419,4 +432,38 @@ export class ClienteListComponent implements OnInit {
     }
   }
 
+  generarPDF(): void {
+    const doc = new jsPDF();
+    
+    const nombrePDF = this.date.toDateString() +
+      '-' + this.date.getHours() +
+      '-' + this.date.getMinutes() +
+      '-' + this.date.getSeconds() + 
+      '-' + this.date.getMilliseconds() + 
+      '_' + this.cl.nombre;
+
+    //Dibujado del PDF
+    doc.setFontSize(24);
+    doc.text('Datos del cliente', 10, 20); //titulo
+    doc.setFontSize(14);
+
+    doc.line(5, 25, 200, 25);
+
+    doc.text('Nombre: ' + this.cl.nombre, 10, 35); //Nombre
+    doc.text('Apellido Paterno: ' + this.cl.a_paterno, 10, 45); //Apellido Paterno
+    doc.text('Apellido Materno: ' + this.cl.a_materno, 10, 55); //Apellido Materno
+    doc.text('Telefono: ' + this.cl.telefono, 10, 65); //Telefono
+    doc.text('RFC: ' + this.cl.rfc, 10, 75); //RFC
+
+    doc.setFontSize(24);
+    doc.text('Ubicación', 10, 95); //Ubicacion
+    doc.setFontSize(14);
+
+    doc.line(5, 101, 200, 101);
+
+    doc.text('Longitud: ' + this.cl.longitud +
+      " / Latitud: " + this.cl.latitud, 10, 111); //Coordenadas
+
+    doc.save(nombrePDF + '.pdf');
+  }
 }
